@@ -9,6 +9,7 @@ package animacion.figures;
 import strdatos.Point;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import strdatos.AnimationFeatures;
 
 /**
  * Autor: Luis Cobian
@@ -20,12 +21,14 @@ public abstract class Figure {
     BufferedImage buffer;
     int ang, tX, tY;
     double scaleX, scaleY;
+    AnimationFeatures animationFeatures;
     
 
     public Figure(Point startPoint, Point endPoint, BufferedImage buffer) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.buffer = buffer;
+        animationFeatures = new AnimationFeatures();
         ang = 0;
         tX = 0;
         tY = 0;
@@ -33,6 +36,10 @@ public abstract class Figure {
         scaleY = 0;
     }
 
+    public Figure(Point startPoint, Point endPoint, BufferedImage buffer, int ang) {
+        this(startPoint, endPoint, buffer);
+        this.ang = ang;
+    }
     
     public abstract void draw();
     
@@ -134,5 +141,21 @@ public abstract class Figure {
 
     public int getTY() {return tY;}
     
+    //Setear Features
+    public void setTimes(int inicio, int fin){
+        animationFeatures.setTiempos(new int[]{inicio,fin});
+    }
+    
+    public void setTraslation(int dx, int dy){
+        animationFeatures.setTrasValues(new int[]{dx,dy});
+    }
+    
+    public void setScalation(double sx, double sy){
+        animationFeatures.setScaleValues(new double[]{sx,sy});
+    }
+    
+    public void setAng(int ang){
+        animationFeatures.setAng(ang);
+    }
     
 }

@@ -45,18 +45,18 @@ public class Animacion extends JFrame {
 
     @Override
     public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
         if (buffer == null) {
             buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
             graphics = (Graphics2D) buffer.createGraphics();
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, getWidth(), getHeight());
             graphics.setColor(Color.red);
+            //new Rectangulo(new Point(300,400),new Point(350,450),buffer,50).draw();
             //new Transforms(figuras,dx,dy,sx,sy,ang)
             Thread hilo = new Thread(new Transforms(figures,new int[]{0,350,0,0},new int[]{0,0,300,0}));
             hilo.start();    
         }
-        g2d.drawImage(bufferSec, 0, 0, this);
+        this.getGraphics().drawImage(bufferSec, 0, 0, this);
     }
 
     public static void main(String[] args) {

@@ -22,6 +22,11 @@ public class Rectangulo extends Figure{
         super(startPoint, endPoint, buffer);
     }
 
+    public Rectangulo(Point startPoint, Point endPoint, BufferedImage buffer, int ang) {
+        super(startPoint, endPoint, buffer, ang);
+    }
+    
+
     @Override
     public void draw() {
         drawRec(startPoint, endPoint);
