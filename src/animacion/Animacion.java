@@ -33,12 +33,12 @@ public class Animacion extends JFrame {
         bufferSec = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         
         Rec01 = new Rectangulo(new Point(150, 150),new Point(200,200), bufferSec);
-        Rec02 = new Rectangulo(new Point(50, 100),new Point(70,130), bufferSec);
+        Rec01.setTimes(0, 10);
+        Rec01.setTraslation(300, 0);
+        //Rec02 = new Rectangulo(new Point(50, 100),new Point(70,130), bufferSec);
         
         figures.add(Rec01);
-        figures.add(Rec02);
-        figures.add(new Circulo(new Point(200,200), new Point(220,220), bufferSec));
-        figures.add(new Rectangulo(new Point(275,275), new Point(325,325), bufferSec));
+        //figures.add(Rec02);
 
         setVisible(true);
     }
@@ -53,7 +53,7 @@ public class Animacion extends JFrame {
             graphics.setColor(Color.red);
             //new Rectangulo(new Point(300,400),new Point(350,450),buffer,50).draw();
             //new Transforms(figuras,dx,dy,sx,sy,ang)
-            Thread hilo = new Thread(new Transforms(figures,new int[]{0,350,0,0},new int[]{0,0,300,0}));
+            Thread hilo = new Thread(new Transforms(figures));
             hilo.start();    
         }
         this.getGraphics().drawImage(bufferSec, 0, 0, this);
@@ -97,14 +97,8 @@ public class Animacion extends JFrame {
         double[] sx, sy;
         int allInBuffer;
 
-        public Transforms(LinkedList<Figure> animate, Figure figura, int[] dx, int[] dy, int[] ang, double[] sx, double[] sy) {
+        public Transforms(LinkedList<Figure> animate) {
             this.animate = animate;
-            this.figura = figura;
-            this.dx = dx;
-            this.dy = dy;
-            this.ang = ang;
-            this.sx = sx;
-            this.sy = sy;
         }
 
         public Transforms(LinkedList<Figure> animate, int[] dx, int[] dy) {

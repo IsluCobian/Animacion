@@ -38,8 +38,5 @@ public class AnimationFeatures {
     public void setScaleValues(double[] scaleValues) {this.scaleValues = scaleValues;}
 
     public void setAng(int ang) {this.ang = ang;}
-    
-    
-    
-    
+   
 }
