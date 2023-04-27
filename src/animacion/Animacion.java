@@ -32,7 +32,7 @@ public class Animacion extends JFrame {
         bufferSec = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         
         Rec01 = new Rectangulo(new Point(150, 150),new Point(200,200), bufferSec);
-        Rec01.setTimes(0, 10);
+        Rec01.setTimes(3, 7);
         Rec01.setTraslation(300, 0);
         figures.add(Rec01);
         Rec02 = new Rectangulo(new Point(200, 100),new Point(220,130), bufferSec);
@@ -78,7 +78,7 @@ public class Animacion extends JFrame {
         }
 
         public void transform(int i) {
-            int tiempo = ( figura.getFinishTime() * 1000 )/ DELAY;
+            int tiempo = ( figura.getDuracion() * 1000 )/ DELAY;
             if (figura.translate()){
                 figura.translate(tiempo);
             }
@@ -99,7 +99,7 @@ public class Animacion extends JFrame {
         }
 
         public boolean startTime(int i){
-            if (figura.getStartTime() >= (TIME / 1000)) {
+            if (figura.getStartTime()*1000 <= TIME) {
                 return true;
             }
             return false;
@@ -118,13 +118,14 @@ public class Animacion extends JFrame {
                 bufferSec.getGraphics().drawImage(buffer, 0, 0, null);
                 for (int i = 0; i < animate.size(); i++) {
                     figura = animate.get(i);
-                    //if (startTime(i)){
+                    figura.draw();
+                    if (startTime(i)) {
                         transform(i);
-                        figura.draw();
-                        if (isComplete(i)){
+                        if (isComplete(i)) {
                             removeAnimation(i);
                         }
-                    //}
+                    }
+
                 }
                 repaint();
                 try {
