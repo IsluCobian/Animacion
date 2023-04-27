@@ -17,6 +17,9 @@ public class AnimationFeatures {
     int ang; //En Grados sexagesimales
 
     public AnimationFeatures() {
+        trasValues = null;
+        scaleValues = null;
+        ang = 0;
     }
     
     //getters

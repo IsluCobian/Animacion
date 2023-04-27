@@ -43,11 +43,12 @@ public abstract class Figure {
     
     public abstract void draw();
     
-    public void translate(int dx, int dy){
-        tX += dx;
-        tY += dy;
+    public void translate(int tiempo){
+        int [] trans = animationFeatures.getTrasValues();
+        tX += trans[0]/tiempo;
+        tY += trans[1]/tiempo;
         
-        double[][] translateMatrix = {{1, 0, dx},{0, 1, dy},{0, 0, 1}};
+        double[][] translateMatrix = {{1, 0, trans[0]/tiempo},{0, 1, trans[1]/tiempo},{0, 0, 1}};
     
         Point[] points = {getStart(), getEnd()};
         for (Point p : points) {
@@ -58,14 +59,15 @@ public abstract class Figure {
         }
     }
     
-    public void scalate(double sx, double sy){
-        scaleX += sx;
-        scaleY += sy;
+    public void scalate(int tiempo){
+        double [] scale = animationFeatures.getScaleValues();
+        scaleX += scale[0]/tiempo;
+        scaleY += scale[1]/tiempo;
    
         double centerX = (getStart().x + getEnd().x) / 2.0;
         double centerY = (getStart().y + getEnd().y) / 2.0;
 
-        double[][] scalateMatrix = {{sx, 0, 0}, {0, sy, 0}, {0, 0, 1}};
+        double[][] scalateMatrix = {{scale[0]/tiempo, 0, 0}, {0, scale[1]/tiempo, 0}, {0, 0, 1}};
         double[] start = {getStart().x - centerX, getStart().y - centerY, 1};
         double[] end = {getEnd().x - centerX, getEnd().y - centerY, 1};
         double[] newStart = matrixMultiply(scalateMatrix, start);
@@ -78,8 +80,8 @@ public abstract class Figure {
         endPoint.y = (int) (newEnd[1] + centerY);
     }
     
-    public void rotate(int ang){
-        this.ang += ang;
+    public void rotate(int tiempo){
+        this.ang += animationFeatures.getAng()/tiempo;
     }
     
     public Point rotate(int x, int y){
@@ -130,18 +132,8 @@ public abstract class Figure {
     public Point getStart() {return startPoint;}
 
     public Point getEnd() {return endPoint;}
-
-    public int getAng() {return ang;}
-
-    public double getScaleX() {return scaleX;}
     
-    public double getScaleY() {return scaleY;}
-
-    public int getTX() {return tX;}
-
-    public int getTY() {return tY;}
-    
-    //Setear Features
+    //Set Features
     public void setTimes(int inicio, int fin){
         animationFeatures.setTiempos(new int[]{inicio,fin});
     }
@@ -156,6 +148,39 @@ public abstract class Figure {
     
     public void setAng(int ang){
         animationFeatures.setAng(ang);
+    }
+
+    public int getDuracion(){
+        return animationFeatures.getTiempos()[1] - animationFeatures.getTiempos()[0];
+    }
+
+    public int getStartTime(){
+        return animationFeatures.getTiempos()[0];
+    }
+
+    public int getFinishTime(){
+        return animationFeatures.getTiempos()[1];
+    }
+
+    public boolean translate(){
+        if (animationFeatures.getTrasValues() != null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean scale(){
+        if (animationFeatures.getScaleValues() != null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean rotate(){
+        if (animationFeatures.getAng() != 0){
+            return true;
+        }
+        return false;
     }
     
 }
