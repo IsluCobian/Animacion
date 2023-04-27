@@ -30,10 +30,6 @@ public abstract class Figure {
         this.buffer = buffer;
         animationFeatures = new AnimationFeatures();
         ang = 0;
-        tX = 0;
-        tY = 0;
-        scaleX = 0;
-        scaleY = 0;
     }
 
     public Figure(Point startPoint, Point endPoint, BufferedImage buffer, int ang) {
@@ -45,8 +41,6 @@ public abstract class Figure {
     
     public void translate(int tiempo){
         int [] trans = animationFeatures.getTrasValues();
-        tX += trans[0]/tiempo;
-        tY += trans[1]/tiempo;
         
         double[][] translateMatrix = {{1, 0, trans[0]/tiempo},{0, 1, trans[1]/tiempo},{0, 0, 1}};
     
@@ -61,13 +55,11 @@ public abstract class Figure {
     
     public void scalate(int tiempo){
         double [] scale = animationFeatures.getScaleValues();
-        scaleX += scale[0]/tiempo;
-        scaleY += scale[1]/tiempo;
    
         double centerX = (getStart().x + getEnd().x) / 2.0;
         double centerY = (getStart().y + getEnd().y) / 2.0;
 
-        double[][] scalateMatrix = {{scale[0]/tiempo, 0, 0}, {0, scale[1]/tiempo, 0}, {0, 0, 1}};
+        double[][] scalateMatrix = {{1+scale[0]/tiempo, 0, 0}, {0, 1+scale[1]/tiempo, 0}, {0, 0, 1}};
         double[] start = {getStart().x - centerX, getStart().y - centerY, 1};
         double[] end = {getEnd().x - centerX, getEnd().y - centerY, 1};
         double[] newStart = matrixMultiply(scalateMatrix, start);

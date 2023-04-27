@@ -33,7 +33,8 @@ public class Animacion extends JFrame {
         
         Rec01 = new Rectangulo(new Point(150, 150),new Point(200,200), bufferSec);
         Rec01.setTimes(3, 7);
-        Rec01.setTraslation(300, 0);
+        Rec01.setTraslation(400, 0);
+        Rec01.setScalation(1.2,1.2);
         figures.add(Rec01);
         Rec02 = new Rectangulo(new Point(200, 100),new Point(220,130), bufferSec);
         Rec02.setTimes(0, 5);
@@ -66,49 +67,48 @@ public class Animacion extends JFrame {
     }
     
     public class Transforms implements Runnable {
-
         LinkedList<Figure> animate;
         int DELAY = 50;
-        Figure figura;
+        Figure figure;
         int TIME = 0;
-        int c =0;
+        int c = 0;
 
         public Transforms(LinkedList<Figure> animate) {
             this.animate = animate;
         }
 
         public void transform(int i) {
-            int tiempo = ( figura.getDuracion() * 1000 )/ DELAY;
-            if (figura.translate()){
-                figura.translate(tiempo);
+            int tiempo = ( figure.getDuracion() * 1000 )/ DELAY;
+            if (figure.translate()){
+                figure.translate(tiempo);
             }
-            if (figura.scale()){
-                figura.scalate(tiempo);
+            if (figure.scale()){
+                figure.scalate(tiempo);
             }
-            if (figura.rotate()){
-                figura.rotate(tiempo);
+            if (figure.rotate()){
+                figure.rotate(tiempo);
             }
 
         }
 
-        public boolean isComplete(int i) {
-            if (figura.getFinishTime() <= (TIME / 1000)) {
+        public boolean isComplete() {
+            if (figure.getFinishTime() <= (TIME / 1000)) {
                 return true;
             }
             return false;
         }
 
-        public boolean startTime(int i){
-            if (figura.getStartTime()*1000 <= TIME) {
+        public boolean startTime(){
+            if (figure.getStartTime()*1000 <= TIME) {
                 return true;
             }
             return false;
         }
 
         public void removeAnimation(int i) {
-            animate.remove(figura);
-            figura.setBuffer(buffer);
-            figura.draw();
+            animate.remove(figure);
+            figure.setBuffer(buffer);
+            figure.draw();
         }
         
 
@@ -117,11 +117,11 @@ public class Animacion extends JFrame {
             while (!animate.isEmpty()) {
                 bufferSec.getGraphics().drawImage(buffer, 0, 0, null);
                 for (int i = 0; i < animate.size(); i++) {
-                    figura = animate.get(i);
-                    figura.draw();
-                    if (startTime(i)) {
+                    figure = animate.get(i);
+                    figure.draw();
+                    if (startTime()) {
                         transform(i);
-                        if (isComplete(i)) {
+                        if (isComplete()) {
                             removeAnimation(i);
                         }
                     }
@@ -129,7 +129,7 @@ public class Animacion extends JFrame {
                 }
                 repaint();
                 try {
-                    if (c == 20){
+                    if (c == (1000/DELAY)){
                         System.out.println("" + TIME/1000);
                         c = 0;
                     }
