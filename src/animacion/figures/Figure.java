@@ -17,23 +17,30 @@ import strdatos.AnimationFeatures;
  */
 
 public abstract class Figure {
-    Point startPoint, endPoint;
+    Point startPoint, endPoint, rotationPoint;
     BufferedImage buffer;
-    int ang, tX, tY;
-    double scaleX, scaleY;
+    int ang;
+    Color color;
+    boolean steps;
     AnimationFeatures animationFeatures;
     
 
-    public Figure(Point startPoint, Point endPoint, BufferedImage buffer) {
+    public Figure(Point startPoint, Point endPoint, BufferedImage buffer, Color color) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.buffer = buffer;
+        this.color = color;
         animationFeatures = new AnimationFeatures();
+        rotationPoint = new Point(0,0);
         ang = 0;
     }
+    public Figure(Point startPoint, Point endPoint, BufferedImage buffer, Color color, boolean steps) {
+        this(startPoint, endPoint, buffer, color);
+        this.steps = steps;
+    }
 
-    public Figure(Point startPoint, Point endPoint, BufferedImage buffer, int ang) {
-        this(startPoint, endPoint, buffer);
+    public Figure(Point startPoint, Point endPoint, BufferedImage buffer, Color color, int ang) {
+        this(startPoint, endPoint, buffer, color);
         this.ang = ang;
     }
     
@@ -85,16 +92,16 @@ public abstract class Figure {
     
     public void putPixel(int x, int y, Color c) {
         //calculo centro de la figura
-        int centerX = startPoint.x + (endPoint.x - startPoint.x) / 2;
-        int centerY = startPoint.y + (endPoint.y - startPoint.y) / 2;
+        int centerX = ((getStart().x + getEnd().x) / 2) + rotationPoint.x;
+        int centerY = ((getStart().y + getEnd().y) / 2) + rotationPoint.y;
         //se trasladan las coordenadas al centro
-        int nx = x - centerX;                
+        int nx = x - centerX;
         int ny = y - centerY;
         //se calcula la rotacion
         Point newPoint = rotate(nx,ny);
         //Se regresan las x a su posicion ya con rotacion
-        int newX = newPoint.x + centerX;             
-        int newY = newPoint.y + centerY;             
+        int newX = newPoint.x + centerX;
+        int newY = newPoint.y + centerY;
         if (newX < 0 || newX >= buffer.getWidth() || newY < 0 || newY >= buffer.getHeight()) {
             return;
         }
@@ -115,16 +122,26 @@ public abstract class Figure {
 
     public void setBuffer(BufferedImage buffer) {this.buffer = buffer;}
 
-    public BufferedImage getBuffer() {
-        return buffer;
-    }
-
-    public Point getPoint(){return startPoint;}
-    
     public Point getStart() {return startPoint;}
 
     public Point getEnd() {return endPoint;}
-    
+
+    //Calcula el punto medio de la figura al rotar
+    public Point getFloodPoint() {
+        int centerX = ((getStart().x + getEnd().x) / 2) + rotationPoint.x;
+        int centerY = ((getStart().y + getEnd().y) / 2) + rotationPoint.y;
+
+        int nx = - rotationPoint.x;
+        int ny = - rotationPoint.y;
+
+        Point newPoint = rotate(nx,ny);
+
+        int newX = newPoint.x + centerX;
+        int newY = newPoint.y + centerY;
+
+        return new Point(newX,newY);
+    }
+
     //Set Features
     public void setTimes(int inicio, int fin){
         animationFeatures.setTiempos(new int[]{inicio,fin});
@@ -142,6 +159,15 @@ public abstract class Figure {
         animationFeatures.setAng(ang);
     }
 
+    //Traslada desde el centro punto
+    public void setRotationPoint(Point rotationPoint) {
+        this.rotationPoint = rotationPoint;
+    }
+
+    //Get Features
+    public boolean isSteps() {
+        return steps;
+    }
     public int getDuracion(){
         return animationFeatures.getTiempos()[1] - animationFeatures.getTiempos()[0];
     }

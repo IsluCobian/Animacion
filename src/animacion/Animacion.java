@@ -18,30 +18,39 @@ public class Animacion extends JFrame {
     private static BufferedImage buffer;
     public BufferedImage bufferSec;
     private LinkedList<Figure> figures = new LinkedList<Figure>();
+    public int TIME = 0;
     Rectangulo Rec01, Rec02;
-    
+    Thread thread;
     private Graphics2D graphics;
 
     public Animacion() {
         setTitle("Practica");
-        setSize(600, 600);
+        setSize(750, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         
         bufferSec = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         
-        Rec01 = new Rectangulo(new Point(150, 150),new Point(200,200), bufferSec);
+        Rec01 = new Rectangulo(new Point(150, 150),new Point(200,200), bufferSec, Color.orange, true);
         Rec01.setTimes(3, 7);
         Rec01.setTraslation(400, 0);
-        Rec01.setScalation(1.2,1.2);
         figures.add(Rec01);
-        Rec02 = new Rectangulo(new Point(200, 100),new Point(220,130), bufferSec);
+        Rec02 = new Rectangulo(new Point(300, 100),new Point(320,130), bufferSec, Color.PINK);
         Rec02.setTimes(0, 5);
         Rec02.setTraslation(0, 200);
         Rec02.setAng(720);
+        Rec02.setRotationPoint(new Point(50,50));
         //Rec02.setScalation(2,2);
         figures.add(Rec02);
+        Rec01 = new Rectangulo(new Point(550, 150),new Point(600,200), bufferSec, Color.orange, true);
+        Rec01.setTimes(7, 10);
+        Rec01.setTraslation(0, 200);
+        figures.add(Rec01);
+        Rec01 = new Rectangulo(new Point(550, 350),new Point(600,400), bufferSec, Color.orange);
+        Rec01.setTimes(10, 14);
+        Rec01.setTraslation(-400, 0);
+        figures.add(Rec01);
 
         setVisible(true);
     }
@@ -54,10 +63,8 @@ public class Animacion extends JFrame {
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, getWidth(), getHeight());
             graphics.setColor(Color.red);
-            //new Rectangulo(new Point(300,400),new Point(350,450),buffer,50).draw();
-            //new Transforms(figuras,dx,dy,sx,sy,ang)
-            Thread hilo = new Thread(new Transforms(figures));
-            hilo.start();    
+            thread = new Thread(new Transforms(figures));
+            thread.start();
         }
         this.getGraphics().drawImage(bufferSec, 0, 0, this);
     }
@@ -70,7 +77,6 @@ public class Animacion extends JFrame {
         LinkedList<Figure> animate;
         int DELAY = 50;
         Figure figure;
-        int TIME = 0;
         int c = 0;
 
         public Transforms(LinkedList<Figure> animate) {
@@ -88,7 +94,6 @@ public class Animacion extends JFrame {
             if (figure.rotate()){
                 figure.rotate(tiempo);
             }
-
         }
 
         public boolean isComplete() {
@@ -107,40 +112,41 @@ public class Animacion extends JFrame {
 
         public void removeAnimation(int i) {
             animate.remove(figure);
-            figure.setBuffer(buffer);
-            figure.draw();
+            if (!figure.isSteps()) {
+                figure.setBuffer(buffer);
+                figure.draw();
+            }
         }
-        
 
         @Override
         public void run() {
-            while (!animate.isEmpty()) {
-                bufferSec.getGraphics().drawImage(buffer, 0, 0, null);
-                for (int i = 0; i < animate.size(); i++) {
-                    figure = animate.get(i);
-                    figure.draw();
-                    if (startTime()) {
-                        transform(i);
-                        if (isComplete()) {
-                            removeAnimation(i);
+                while (true) {
+                    if (!animate.isEmpty()) {
+                        bufferSec.getGraphics().drawImage(buffer, 0, 0, null);
+                        for (int i = 0; i < animate.size(); i++) {
+                            figure = animate.get(i);
+                            if (startTime()) {
+                                figure.draw();
+                                transform(i);
+                                if (isComplete()) {
+                                    removeAnimation(i);
+                                }
+                            }
                         }
+                        repaint();
+                        try {
+                            if (c == (1000 / DELAY)) {
+                                System.out.println("" + TIME / 1000);
+                                c = 0;
+                            }
+                            c++;
+                            TIME += DELAY;
+                            Thread.sleep(DELAY);
+                        } catch (InterruptedException e) {e.printStackTrace();}
                     }
-
                 }
-                repaint();
-                try {
-                    if (c == (1000/DELAY)){
-                        System.out.println("" + TIME/1000);
-                        c = 0;
-                    }
-                    c++;
-                    TIME += DELAY;
-                    Thread.sleep(DELAY);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
 }
 
 

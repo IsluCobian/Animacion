@@ -17,31 +17,33 @@ import java.awt.image.BufferedImage;
  * Registro: 20310016
  */
 public class Rectangulo extends Figure{
-
-    public Rectangulo(Point startPoint, Point endPoint, BufferedImage buffer) {
-        super(startPoint, endPoint, buffer);
+    public Rectangulo(Point startPoint, Point endPoint, BufferedImage buffer, Color color) {
+        super(startPoint, endPoint, buffer, color);
+    }
+    public Rectangulo(Point startPoint, Point endPoint, BufferedImage buffer, Color color, boolean steps) {
+        super(startPoint, endPoint, buffer, color, steps);
     }
 
-    public Rectangulo(Point startPoint, Point endPoint, BufferedImage buffer, int ang) {
-        super(startPoint, endPoint, buffer, ang);
+    public Rectangulo(Point startPoint, Point endPoint, BufferedImage buffer, Color color, int ang) {
+        super(startPoint, endPoint, buffer, color, ang);
     }
     
 
     @Override
     public void draw() {
         drawRec(startPoint, endPoint);
-        new FloodFill(new Point((endPoint.x + startPoint.x)/2, (endPoint.y + startPoint.y)/2), Color.orange, buffer);
+        new FloodFill(getFloodPoint(), color, buffer);
     }
     
     public void drawRec(Point startPoint, Point endPoint){
         for (int i = startPoint.x; i <= endPoint.x; i++) {
-            putPixel(i, startPoint.y, Color.orange);
-            putPixel(i, endPoint.y, Color.orange);
+            putPixel(i, startPoint.y, color);
+            putPixel(i, endPoint.y, color);
         }
         
         for (int i = startPoint.y; i <= endPoint.y; i++) {
-            putPixel(startPoint.x, i, Color.orange);
-            putPixel(endPoint.x, i, Color.orange);
+            putPixel(startPoint.x, i, color);
+            putPixel(endPoint.x, i, color);
         }
     }
 

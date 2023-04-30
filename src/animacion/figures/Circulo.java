@@ -18,8 +18,8 @@ import java.awt.image.BufferedImage;
  */
 public class Circulo extends Figure{
 
-    public Circulo(Point startPoint, Point endPoint, BufferedImage buffer) {
-        super(startPoint, endPoint, buffer);
+    public Circulo(Point startPoint, Point endPoint, BufferedImage buffer, Color color) {
+        super(startPoint, endPoint, buffer, color);
     }
 
     @Override
