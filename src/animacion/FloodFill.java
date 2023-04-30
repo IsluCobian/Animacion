@@ -17,9 +17,9 @@ import java.util.Stack;
  */
 public class FloodFill{
         
-        BufferedImage buffer;
-        Point startPoint;
-        int fill, c;
+        private BufferedImage buffer;
+        private Point startPoint;
+        private int fill, c;
 
         public FloodFill(Point startPoint, Color c, BufferedImage buffer) {
             this.startPoint = startPoint;
@@ -31,7 +31,7 @@ public class FloodFill{
         
         //Flood Fill con Stack
         /*Permite que en vez de estar revisando cada pixel*/
-        public void floodFill(int x, int y){
+        private void floodFill(int x, int y){
             Stack<Point> stack = new Stack<>();
             stack.push(new Point(x, y));
 

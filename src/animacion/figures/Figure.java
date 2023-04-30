@@ -17,12 +17,12 @@ import strdatos.AnimationFeatures;
  */
 
 public abstract class Figure {
-    Point startPoint, endPoint, rotationPoint;
-    BufferedImage buffer;
-    int ang;
-    Color color;
-    boolean steps;
-    AnimationFeatures animationFeatures;
+    protected Point startPoint, endPoint, rotationPoint;
+    protected BufferedImage buffer;
+    private int ang;
+    protected Color color;
+    private boolean steps;
+    private AnimationFeatures animationFeatures;
     
 
     public Figure(Point startPoint, Point endPoint, BufferedImage buffer, Color color) {
@@ -83,14 +83,14 @@ public abstract class Figure {
         this.ang += animationFeatures.getAng()/tiempo;
     }
     
-    public Point rotate(int x, int y){
+    private Point rotate(int x, int y){
         double[][] rotateMatrix = {{Math.cos(Math.toRadians(ang)), -Math.sin(Math.toRadians(ang)), 0},{Math.sin(Math.toRadians(ang)), Math.cos(Math.toRadians(ang)), 0},{0, 0, 1}};
         double[] figurePosition = {x, y, 1};
         double[] newPosition = matrixMultiply(rotateMatrix, figurePosition);
         return new Point((int)newPosition[0],(int)newPosition[1]);
     }
     
-    public void putPixel(int x, int y, Color c) {
+    protected void putPixel(int x, int y, Color c) {
         //calculo centro de la figura
         int centerX = ((getStart().x + getEnd().x) / 2) + rotationPoint.x;
         int centerY = ((getStart().y + getEnd().y) / 2) + rotationPoint.y;
@@ -108,7 +108,7 @@ public abstract class Figure {
         buffer.setRGB(newX, newY, c.getRGB());
     }
         
-    public double[] matrixMultiply(double[][] matrix, double[] vector) {
+    private double[] matrixMultiply(double[][] matrix, double[] vector) {
         double[] result = new double[3];
         for (int i = 0; i < 3; i++) {
             double sum = 0;
@@ -126,8 +126,8 @@ public abstract class Figure {
 
     public Point getEnd() {return endPoint;}
 
-    //Calcula el punto medio de la figura al rotar
-    public Point getFloodPoint() {
+    //Sets the middle point to apply floodfill
+    protected Point getFloodPoint() {
         int centerX = ((getStart().x + getEnd().x) / 2) + rotationPoint.x;
         int centerY = ((getStart().y + getEnd().y) / 2) + rotationPoint.y;
 
@@ -159,7 +159,7 @@ public abstract class Figure {
         animationFeatures.setAng(ang);
     }
 
-    //Traslada desde el centro punto
+    //Traslate the rotation/pivot point
     public void setRotationPoint(Point rotationPoint) {
         this.rotationPoint = rotationPoint;
     }
@@ -180,6 +180,7 @@ public abstract class Figure {
         return animationFeatures.getTiempos()[1];
     }
 
+    //Get active features
     public boolean translate(){
         if (animationFeatures.getTrasValues() != null){
             return true;

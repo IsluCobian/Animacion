@@ -63,6 +63,8 @@ public class Animacion extends JFrame {
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, getWidth(), getHeight());
             graphics.setColor(Color.red);
+            Point[] points = new Point[]{new Point(100,100), new Point(200,120), new Point(180,200), new Point(100,200), new Point(50,150)};
+            new Polygon(points,buffer,Color.orange).draw();
             thread = new Thread(new Transforms(figures));
             thread.start();
         }

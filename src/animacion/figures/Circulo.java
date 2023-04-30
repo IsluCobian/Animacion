@@ -29,7 +29,7 @@ public class Circulo extends Figure{
     }
     
     
-    public void drawEllipse(Point centerPoint, int radioX, int radioY){
+    private void drawEllipse(Point centerPoint, int radioX, int radioY){
         double x,y;
         for (double i = 0; i <= 2 * Math.PI; i+=0.01) {
             x = centerPoint.x + radioX*Math.cos(i);
