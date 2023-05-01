@@ -21,7 +21,7 @@ public abstract class Figure {
     protected BufferedImage buffer;
     private int ang;
     protected Color color;
-    private boolean steps;
+    protected boolean steps;
     private AnimationFeatures animationFeatures;
     
 
@@ -34,6 +34,24 @@ public abstract class Figure {
         rotationPoint = new Point(0,0);
         ang = 0;
     }
+
+    public Figure(Point startPoint, BufferedImage buffer) {
+        this.startPoint = startPoint;
+        this.buffer = buffer;
+        this.endPoint = new Point(0,0);
+        animationFeatures = new AnimationFeatures();
+        rotationPoint = new Point(0,0);
+        ang = 0;
+    }
+    public Figure(Point startPoint) {
+        this.startPoint = startPoint;
+        this.buffer = null;
+        this.endPoint = new Point(0,0);
+        animationFeatures = new AnimationFeatures();
+        rotationPoint = new Point(0,0);
+        ang = 0;
+    }
+
     public Figure(Point startPoint, Point endPoint, BufferedImage buffer, Color color, boolean steps) {
         this(startPoint, endPoint, buffer, color);
         this.steps = steps;
@@ -200,6 +218,52 @@ public abstract class Figure {
             return true;
         }
         return false;
+    }
+
+    //Metodos de Figuras
+    protected void drawRec(Point startPoint, Point endPoint){
+        for (int i = startPoint.x; i <= endPoint.x; i++) {
+            putPixel(i, startPoint.y, color);
+            putPixel(i, endPoint.y, color);
+        }
+
+        for (int i = startPoint.y; i <= endPoint.y; i++) {
+            putPixel(startPoint.x, i, color);
+            putPixel(endPoint.x, i, color);
+        }
+    }
+
+    protected void drawCircle(Point centerPoint, int radio){
+        int x = 0;
+        int y = radio;
+        int pk = 1 - radio;
+        while (x <= y) {
+            putPixel(centerPoint.x + x, centerPoint.y + y, color);
+            putPixel(centerPoint.x + y, centerPoint.y + x, color);
+            putPixel(centerPoint.x - x, centerPoint.y + y, color);
+            putPixel(centerPoint.x - y, centerPoint.y + x, color);
+            putPixel(centerPoint.x - x, centerPoint.y - y, color);
+            putPixel(centerPoint.x - y, centerPoint.y - x, color);
+            putPixel(centerPoint.x + x, centerPoint.y - y, color);
+            putPixel(centerPoint.x + y, centerPoint.y - x, color);
+
+            if (pk < 0) {
+                pk += 2 * x + 3;
+            } else {
+                pk += 2 * (x - y) + 5;
+                y--;
+            }
+            x++;
+        }
+    }
+
+    protected void drawEllipse(Point centerPoint, int radioX, int radioY){
+        double x,y;
+        for (double i = 0; i <= 2 * Math.PI; i+=0.01) {
+            x = centerPoint.x + radioX*Math.cos(i);
+            y = centerPoint.y + radioY*Math.sin(i);
+            putPixel((int) x, (int) y, Color.GREEN);
+        }
     }
     
 }

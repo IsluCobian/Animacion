@@ -26,7 +26,7 @@ public class Polygon{
                 drawLine(points[i], points[i + 1], color);
             }
         }
-        new FloodFill(new Point((points[0].x + 1),(points[0].y + 1)),color,buffer);
+        //new FloodFill(new Point((points[0].x - 1),(points[0].y - 1)),color,buffer);
     }
 
     private void drawLine(Point startPoint, Point endPoint, Color c) {

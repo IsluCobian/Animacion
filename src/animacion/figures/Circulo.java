@@ -27,14 +27,4 @@ public class Circulo extends Figure{
         drawEllipse(startPoint,endPoint.x - startPoint.x,endPoint.y - startPoint.y);
         new FloodFill(startPoint, Color.green, buffer);
     }
-    
-    
-    private void drawEllipse(Point centerPoint, int radioX, int radioY){
-        double x,y;
-        for (double i = 0; i <= 2 * Math.PI; i+=0.01) {
-            x = centerPoint.x + radioX*Math.cos(i);
-            y = centerPoint.y + radioY*Math.sin(i);
-            putPixel((int) x, (int) y, Color.GREEN);
-        }
-    }
 }

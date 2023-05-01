@@ -17,9 +17,10 @@ public class Animacion extends JFrame {
 
     private static BufferedImage buffer;
     public BufferedImage bufferSec;
+    private BufferedImage[] escenarios;
     private LinkedList<Figure> figures = new LinkedList<Figure>();
     public int TIME = 0;
-    Rectangulo Rec01, Rec02;
+    Rectangulo Rect;
     Thread thread;
     private Graphics2D graphics;
 
@@ -32,25 +33,26 @@ public class Animacion extends JFrame {
         
         bufferSec = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         
-        Rec01 = new Rectangulo(new Point(150, 150),new Point(200,200), bufferSec, Color.orange, true);
-        Rec01.setTimes(3, 7);
-        Rec01.setTraslation(400, 0);
-        figures.add(Rec01);
-        Rec02 = new Rectangulo(new Point(300, 100),new Point(320,130), bufferSec, Color.PINK);
-        Rec02.setTimes(0, 5);
-        Rec02.setTraslation(0, 200);
-        Rec02.setAng(720);
-        Rec02.setRotationPoint(new Point(50,50));
-        //Rec02.setScalation(2,2);
-        figures.add(Rec02);
-        Rec01 = new Rectangulo(new Point(550, 150),new Point(600,200), bufferSec, Color.orange, true);
-        Rec01.setTimes(7, 10);
-        Rec01.setTraslation(0, 200);
-        figures.add(Rec01);
-        Rec01 = new Rectangulo(new Point(550, 350),new Point(600,400), bufferSec, Color.orange);
-        Rec01.setTimes(10, 14);
-        Rec01.setTraslation(-400, 0);
-        figures.add(Rec01);
+        Rect = new Rectangulo(new Point(700, 0),new Point(1400,500), bufferSec, Color.orange);
+        Rect.setTimes(13, 18);
+        Rect.setTraslation(-1400,0);
+        figures.add(Rect);
+
+        Tren tren = new Tren(new Point(-100,354),bufferSec);
+        tren.setTimes(0,15);
+        tren.setTraslation(1800,0);
+        figures.add(tren);
+
+
+        Vagon vagon = new Vagon(new Point(-222,354),bufferSec);
+        vagon.setTimes(0,15);
+        vagon.setTraslation(1800,0);
+        for (int i = 122; i <= (122)*6 ; i+=122){
+            figures.add(vagon);
+            vagon = new Vagon(new Point(-222 - i,354),bufferSec);
+            vagon.setTimes(0,15);
+            vagon.setTraslation(1800,0);
+        }
 
         setVisible(true);
     }
@@ -60,15 +62,23 @@ public class Animacion extends JFrame {
         if (buffer == null) {
             buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
             graphics = (Graphics2D) buffer.createGraphics();
-            graphics.setColor(Color.WHITE);
-            graphics.fillRect(0, 0, getWidth(), getHeight());
-            graphics.setColor(Color.red);
-            Point[] points = new Point[]{new Point(100,100), new Point(200,120), new Point(180,200), new Point(100,200), new Point(50,150)};
-            new Polygon(points,buffer,Color.orange).draw();
+            new Rectangulo(new Point(0,0), new Point(750,500),buffer,Color.decode("#61C9E5")).draw();
+            new Rectangulo(new Point(0,450), new Point(750,500),buffer,Color.decode("#91E561")).draw();
+            for (int i = 0; i < 750; i+=45){
+                new Rectangulo(new Point(0 + i,449), new Point(16 + i,452),buffer,Color.decode("#9E8054")).draw();
+            }
+            new Rectangulo(new Point(0,444), new Point(750,449),buffer,Color.decode("#B5B5B5")).draw();
+//            new Tren(new Point(100,354),buffer).draw();
+//            new Vagon(new Point(-20,354),buffer).draw();
             thread = new Thread(new Transforms(figures));
-            thread.start();
+//            thread.start();
+//            this.getGraphics().drawImage(buffer, 0, 0, this);
         }
         this.getGraphics().drawImage(bufferSec, 0, 0, this);
+    }
+
+    private void loadScenes(){
+
     }
 
     public static void main(String[] args) {

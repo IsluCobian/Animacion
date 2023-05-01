@@ -34,17 +34,4 @@ public class Rectangulo extends Figure{
         drawRec(startPoint, endPoint);
         new FloodFill(getFloodPoint(), color, buffer);
     }
-    
-    private void drawRec(Point startPoint, Point endPoint){
-        for (int i = startPoint.x; i <= endPoint.x; i++) {
-            putPixel(i, startPoint.y, color);
-            putPixel(i, endPoint.y, color);
-        }
-        
-        for (int i = startPoint.y; i <= endPoint.y; i++) {
-            putPixel(startPoint.x, i, color);
-            putPixel(endPoint.x, i, color);
-        }
-    }
-
 }

@@ -25,8 +25,17 @@ public class FloodFill{
             this.startPoint = startPoint;
             this.c = c.getRGB();
             this.buffer = buffer;
-            this.fill = buffer.getRGB(startPoint.x, startPoint.y);
-            floodFill(startPoint.x,startPoint.y);
+            if(startPoint.x < 0){
+                this.fill = buffer.getRGB(0, startPoint.y);
+                floodFill(0,startPoint.y);
+            } else if(startPoint.x >= buffer.getWidth()){
+                this.fill = buffer.getRGB(buffer.getWidth() - 1, startPoint.y);
+                floodFill(buffer.getWidth() - 1,startPoint.y);
+            } else {
+                this.fill = buffer.getRGB(startPoint.x, startPoint.y);
+                floodFill(startPoint.x,startPoint.y);
+            }
+//|| startPoint.x >= buffer.getWidth() || startPoint.y < 0 || startPoint.y >= buffer.getHeight()getHeight
         }
         
         //Flood Fill con Stack
