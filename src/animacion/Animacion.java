@@ -232,8 +232,8 @@ public class Animacion extends JFrame {
             new FloodFill(new Point(635,410),Color.red,buffer);
         }
 
-        this.getGraphics().drawImage(buffer, 0, 0, this);
-//        this.getGraphics().drawImage(bufferSec, 0, 0, this);
+//        this.getGraphics().drawImage(buffer, 0, 0, this);
+        this.getGraphics().drawImage(bufferSec, 0, 0, this);
     }
 
     private void loadScene(int index){
@@ -249,9 +249,12 @@ public class Animacion extends JFrame {
                 new Rectangulo(new Point(0,444), new Point(750,449),escenarios.get(0),Color.decode("#B5B5B5")).draw();
                 //new Rectangulo(new Point(0,0), new Point(30,500),escenarios.get(0),Color.decode("#B5B5B5")).draw();
                 new Nube(new Point(50,110),new Point(65,120),escenarios.get(0),Color.white).draw();
-                new Nube(new Point(100,100),new Point(115,110),escenarios.get(0),Color.white).draw();
-                new Nube(new Point(150,120),new Point(165,130),escenarios.get(0),Color.white).draw();
-                new Nube(new Point(350,210),new Point(365,220),escenarios.get(0),Color.white).draw();
+                new Nube(new Point(600,100),new Point(615,110),escenarios.get(0),Color.white).draw();
+                new Nube(new Point(180,120),new Point(195,130),escenarios.get(0),Color.white).draw();
+                new Nube(new Point(340,210),new Point(355,220),escenarios.get(0),Color.white).draw();
+                new Nube(new Point(450,260),new Point(465,270),escenarios.get(0),Color.white).draw();
+                new Nube(new Point(640,210),new Point(655,220),escenarios.get(0),Color.white).draw();
+                new Nube(new Point(150,360),new Point(165,370),escenarios.get(0),Color.white).draw();
             break;
             case 1: //Mar
                 escenarios.add(new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB));
@@ -313,6 +316,12 @@ public class Animacion extends JFrame {
                 new Rectangulo(new Point(540,290),new Point(580,320),escenarios.get(3),Color.decode("#CDDBA7")).draw();
                 new Rectangulo(new Point(480,270),new Point(640,280),escenarios.get(3),Color.gray).draw();
                 new Rectangulo(new Point(485,265),new Point(635,270),escenarios.get(3),Color.gray).draw();
+                //Arbol
+                new Rectangulo(new Point(20,180),new Point(80,448),escenarios.get(3),Color.decode("#806625")).draw();
+                new Rectangulo(new Point(80,280),new Point(180,295),escenarios.get(3),Color.decode("#806625")).draw();
+                new Nube(new Point(50,160),new Point(135,180),escenarios.get(3),Color.decode("#54681C")).draw();
+                new Nube(new Point(10,110),new Point(75,135),escenarios.get(3),Color.decode("#54681C")).draw();
+                new Nube(new Point(200,285),new Point(235,300),escenarios.get(3),Color.decode("#54681C")).draw();
                 //Vias
                 for (int i = 0; i < 750; i+=45){
                     new Rectangulo(new Point(0 + i,449), new Point(16 + i,452),escenarios.get(3),Color.decode("#806625")).draw();
