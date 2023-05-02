@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Tren extends Figure{
-    private BufferedImage bufferMain;
     public Tren(Point startPoint, BufferedImage buffer) {
         super(startPoint);
         bufferMain = buffer;
@@ -33,6 +32,8 @@ public class Tren extends Figure{
             //chimenea
             drawRec(new Point(136,30),new Point(144,40));
             new FloodFill(new Point(140, 36), color, buffer);
+            //Humo
+            drawHumo(new Point(140,30));
             //Caja Persona
             color = Color.decode("#2E2E2E");
             drawRec(new Point(20,0), new Point(68,80));

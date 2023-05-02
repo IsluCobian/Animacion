@@ -22,9 +22,13 @@ public class Circulo extends Figure{
         super(startPoint, endPoint, buffer, color);
     }
 
+    public Circulo(Point startPoint, Point endPoint, BufferedImage buffer, Color color, int ang) {
+        super(startPoint, endPoint, buffer, color, ang);
+    }
+
     @Override
     public void draw() {
         drawEllipse(startPoint,endPoint.x - startPoint.x,endPoint.y - startPoint.y);
-        new FloodFill(startPoint, Color.green, buffer);
+        new FloodFill(startPoint, color, buffer);
     }
 }

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Vagon extends Figure{
-    private BufferedImage bufferMain;
+
     public Vagon(Point startPoint, BufferedImage buffer) {
         super(startPoint);
         bufferMain = buffer;

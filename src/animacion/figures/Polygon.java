@@ -12,7 +12,6 @@ public class Polygon{
     private Point[] points;
 
     public Polygon(Point[] points, BufferedImage buffer, Color color) {
-        super();
         this.points = points;
         this.buffer = buffer;
         this.color = color;

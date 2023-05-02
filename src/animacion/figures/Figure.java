@@ -21,8 +21,9 @@ public abstract class Figure {
     protected BufferedImage buffer;
     private int ang;
     protected Color color;
-    protected boolean steps;
+    protected boolean steps = false;
     private AnimationFeatures animationFeatures;
+    protected BufferedImage bufferMain;
     
 
     public Figure(Point startPoint, Point endPoint, BufferedImage buffer, Color color) {
@@ -31,6 +32,7 @@ public abstract class Figure {
         this.buffer = buffer;
         this.color = color;
         animationFeatures = new AnimationFeatures();
+        bufferMain = null;
         rotationPoint = new Point(0,0);
         ang = 0;
     }
@@ -140,9 +142,17 @@ public abstract class Figure {
 
     public void setBuffer(BufferedImage buffer) {this.buffer = buffer;}
 
+    public void setBufferMain(BufferedImage bufferMain) {
+        this.bufferMain = bufferMain;
+    }
+
     public Point getStart() {return startPoint;}
 
     public Point getEnd() {return endPoint;}
+
+    public BufferedImage getBufferMain() {
+        return bufferMain;
+    }
 
     //Sets the middle point to apply floodfill
     protected Point getFloodPoint() {
@@ -161,8 +171,8 @@ public abstract class Figure {
     }
 
     //Set Features
-    public void setTimes(int inicio, int fin){
-        animationFeatures.setTiempos(new int[]{inicio,fin});
+    public void setTimes(double inicio, double fin){
+        animationFeatures.setTiempos(new double[]{inicio,fin});
     }
     
     public void setTraslation(int dx, int dy){
@@ -177,6 +187,10 @@ public abstract class Figure {
         animationFeatures.setAng(ang);
     }
 
+    public void setSteps(boolean steps) {
+        this.steps = steps;
+    }
+
     //Traslate the rotation/pivot point
     public void setRotationPoint(Point rotationPoint) {
         this.rotationPoint = rotationPoint;
@@ -186,15 +200,15 @@ public abstract class Figure {
     public boolean isSteps() {
         return steps;
     }
-    public int getDuracion(){
+    public double getDuracion(){
         return animationFeatures.getTiempos()[1] - animationFeatures.getTiempos()[0];
     }
 
-    public int getStartTime(){
+    public double getStartTime(){
         return animationFeatures.getTiempos()[0];
     }
 
-    public int getFinishTime(){
+    public double getFinishTime(){
         return animationFeatures.getTiempos()[1];
     }
 
@@ -262,7 +276,53 @@ public abstract class Figure {
         for (double i = 0; i <= 2 * Math.PI; i+=0.01) {
             x = centerPoint.x + radioX*Math.cos(i);
             y = centerPoint.y + radioY*Math.sin(i);
-            putPixel((int) x, (int) y, Color.GREEN);
+            putPixel((int) x, (int) y, color);
+        }
+    }
+
+    protected void drawSol(Point centerPoint){
+        double x,y;
+        double y2 = centerPoint.y, x2 = centerPoint.x;
+        int Puntos = 200;
+        for (double t = 0; t <= (14*Math.PI); t+=(14*Math.PI)/Puntos) {
+            x = centerPoint.x + (17*Math.cos(t) + 7*Math.cos((17.0/7)*t)) * 3;
+            y = centerPoint.y - (17*Math.sin(t) - 7*Math.sin((17.0/7)*t)) * 3;
+            if (t != 0) {
+                drawLine((int) x, (int) y, (int) x2, (int) y2);
+            }
+            y2 = y;
+            x2 = x;
+        }
+    }
+
+    public void drawHumo(Point centerPoint){
+        double x,y;
+        double y2 = centerPoint.y, x2 = centerPoint.x;
+        int Puntos = 40;
+        for (double i = 0; i <= (2*Math.PI); i+=(2*Math.PI)/Puntos) {
+            y = centerPoint.y - i * 8;
+            x = centerPoint.x - (i * Math.cos(3 * i)) * 2;
+            drawLine((int) x, (int) y, (int) x2, (int) y2);
+            y2 = y;
+            x2 = x;
+        }
+    }
+
+    protected void drawLine(int x1, int y1, int x2, int y2) {
+        float steps;
+        int dy = y2 - y1;
+        int dx = x2 - x1;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            steps = Math.abs(dx);
+        } else {
+            steps = Math.abs(dy);
+        }
+        float x = x1, y = y1;
+        putPixel(Math.round(x), Math.round(y), color);
+        for (int k = 0; k < steps; k++) {
+            x = x + dx/steps;
+            y = y + dy/steps;
+            putPixel(Math.round(x), Math.round(y), color);
         }
     }
     

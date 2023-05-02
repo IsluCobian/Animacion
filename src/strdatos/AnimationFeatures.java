@@ -12,7 +12,7 @@ package strdatos;
  */
 public class AnimationFeatures {
     int[] trasValues; //dx,dy
-    int[] tiempos; //Inicio,Final
+    double[] tiempos; //Inicio,Final
     double[] scaleValues; //sx,sy
     int ang; //En Grados sexagesimales
 
@@ -26,7 +26,7 @@ public class AnimationFeatures {
 
     public int[] getTrasValues() {return trasValues;}
 
-    public int[] getTiempos() {return tiempos;}
+    public double[] getTiempos() {return tiempos;}
 
     public double[] getScaleValues() {return scaleValues;}
 
@@ -36,7 +36,7 @@ public class AnimationFeatures {
 
     public void setTrasValues(int[] trasValues) {this.trasValues = trasValues;}
 
-    public void setTiempos(int[] tiempos) {this.tiempos = tiempos;}
+    public void setTiempos(double[] tiempos) {this.tiempos = tiempos;}
 
     public void setScaleValues(double[] scaleValues) {this.scaleValues = scaleValues;}
 
