@@ -121,7 +121,7 @@ public class Animacion extends JFrame {
         //Animacion escena 04
         Circulo circulo = new Circulo(new Point(540,315),new Point(545,320),bufferSec,Color.decode("#77624C"));
         circulo.setTimes(65,67);
-        circulo.setTraslation(50,150);
+        circulo.setTraslation(80,150);
         circulo.setScalation(1.000001,1.000001);
         circulo.setSteps(true);
         figures.add(circulo);
